@@ -4,6 +4,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // <-- nouvel état pour le menu
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,15 +18,30 @@ const Navbar = () => {
     localStorage.removeItem('userId');
     setIsLoggedIn(false);
     navigate('/login');
+    setMenuOpen(false); // ferme le menu après logout
   };
+
+  const handleLinkClick = () => setMenuOpen(false); // ferme le menu après clic sur lien
 
   return (
     <header className="navbar">
       <div className="navbar-left">
         <h1>VendreMesObjets</h1>
+
+        {/* bouton hamburger */}
+        <button
+          className={`hamburger ${menuOpen ? 'active' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
         <nav>
-          <ul>
-            <li><Link to="/">Objets à vendre</Link></li>
+          <ul className={menuOpen ? 'open' : ''}>
+            <li><Link to="/" onClick={handleLinkClick}>Objets à vendre</Link></li>
             <li>
               <Link
                 id="nav-addObject"
@@ -35,6 +51,7 @@ const Navbar = () => {
                     e.preventDefault();
                     navigate('/login');
                   }
+                  handleLinkClick();
                 }}
               >
                 Vendre un objet
@@ -44,11 +61,11 @@ const Navbar = () => {
         </nav>
       </div>
       <div className="navbar-right">
-        <ul>
+        <ul className={menuOpen ? 'open' : ''}>
           {!isLoggedIn && (
             <>
-              <li id="nav-signup"><Link to="/signup">Inscription</Link></li>
-              <li id="nav-login"><Link to="/login">Connexion</Link></li>
+              <li id="nav-signup"><Link to="/signup" onClick={handleLinkClick}>Inscription</Link></li>
+              <li id="nav-login"><Link to="/login" onClick={handleLinkClick}>Connexion</Link></li>
             </>
           )}
           {isLoggedIn && (

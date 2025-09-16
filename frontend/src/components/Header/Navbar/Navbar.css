@@ -19,7 +19,7 @@
     font-size: 24px;
 }
 
-/* Listes de navigation */
+/* Listes de navigation - desktop par défaut */
 .navbar-left nav ul,
 .navbar-right ul {
     display: flex;
@@ -44,4 +44,78 @@
 .navbar-left nav ul li a:hover,
 .navbar-right ul li a:hover {
     background-color: #0056b3;
+}
+
+/* --- AJOUTS POUR MOBILE --- */
+
+/* bouton hamburger (hidden desktop) */
+.hamburger {
+    display: none; /* invisible desktop */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    background: #007BFF;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile menu */
+@media (max-width: 767px) {
+    /* hamburger visible sur mobile */
+    .hamburger {
+        display: flex;
+    }
+
+    /* menus cachés par défaut */
+    .navbar-left nav ul,
+    .navbar-right ul {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 65px; /* ajuster selon hauteur navbar */
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    /* menus ouverts */
+    .navbar-left nav ul.open,
+    .navbar-right ul.open {
+        display: flex;
+    }
+
+    /* liens mobiles */
+    .navbar-left nav ul li a,
+    .navbar-right ul li a {
+        padding: 10px 20px;
+        border-radius: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .navbar-left nav ul li + li,
+    .navbar-right ul li + li {
+        border-top: 1px solid #ddd;
+    }
 }
