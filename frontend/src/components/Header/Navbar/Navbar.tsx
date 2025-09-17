@@ -24,22 +24,13 @@ const Navbar = () => {
   const handleLinkClick = () => setMenuOpen(false); // ferme le menu après clic sur lien
 
   return (
-    <header className="navbar">
-      <div className="navbar-left">
-        <h1>VendreMesObjets</h1>
+    <header>
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Link to="/" className="navbar-brand">
+            VendreMesObjets
+          </Link>
 
-        {/* bouton hamburger */}
-        <button
-          className={`hamburger ${menuOpen ? 'active' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
-        <nav>
           <ul className={menuOpen ? 'open' : ''}>
             <li><Link to="/" onClick={handleLinkClick}>Objets à vendre</Link></li>
             <li>
@@ -58,23 +49,38 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-        </nav>
-      </div>
-      <div className="navbar-right">
-        <ul className={menuOpen ? 'open' : ''}>
-          {!isLoggedIn && (
-            <>
-              <li id="nav-signup"><Link to="/signup" onClick={handleLinkClick}>Inscription</Link></li>
-              <li id="nav-login"><Link to="/login" onClick={handleLinkClick}>Connexion</Link></li>
-            </>
-          )}
-          {isLoggedIn && (
-            <li id="nav-logout"><a href="#" id="logout-btn" onClick={handleLogout}>Déconnexion</a></li>
-          )}
-        </ul>
-      </div>
+        </div>
+
+        <div className="navbar-right">
+          <ul className={menuOpen ? 'open' : ''}>
+            {!isLoggedIn && (
+              <>
+                <li id="nav-signup"><Link to="/signup" onClick={handleLinkClick}>Inscription</Link></li>
+                <li id="nav-login"><Link to="/login" onClick={handleLinkClick}>Connexion</Link></li>
+              </>
+            )}
+            {isLoggedIn && (
+              <li id="nav-logout">
+                <a href="#" id="logout-btn" onClick={handleLogout}>Déconnexion</a>
+              </li>
+            )}
+          </ul>
+
+          {/* bouton hamburger déplacé ici */}
+          <button
+            className={`hamburger ${menuOpen ? 'active' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
     </header>
   );
+
 };
 
 export default Navbar;

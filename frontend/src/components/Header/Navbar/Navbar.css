@@ -20,7 +20,7 @@
 }
 
 /* Listes de navigation - desktop par défaut */
-.navbar-left nav ul,
+.navbar-left ul,
 .navbar-right ul {
     display: flex;
     gap: 15px;
@@ -29,21 +29,19 @@
     padding: 0;
 }
 
-/* Liens */
-.navbar-left nav ul li a,
+/* Liens simples */
+.navbar-left ul li a,
 .navbar-right ul li a {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    color: #007BFF; /* couleur du texte */
+    text-decoration: none; /* pas de soulignement par défaut */
+    transition: color 0.3s ease; /* transition pour hover */
+    padding: 5px 0; /* optionnel : un petit padding vertical */
 }
 
-.navbar-left nav ul li a:hover,
+/* Hover */
+.navbar-left ul li a:hover,
 .navbar-right ul li a:hover {
-    background-color: #0056b3;
+    color: #0056b3; /* couleur plus foncée au survol */
 }
 
 /* --- AJOUTS POUR MOBILE --- */
@@ -86,7 +84,7 @@
     }
 
     /* menus cachés par défaut */
-    .navbar-left nav ul,
+    .navbar-left ul,
     .navbar-right ul {
         display: none;
         flex-direction: column;
@@ -100,13 +98,13 @@
     }
 
     /* menus ouverts */
-    .navbar-left nav ul.open,
+    .navbar-left ul.open,
     .navbar-right ul.open {
         display: flex;
     }
 
     /* liens mobiles */
-    .navbar-left nav ul li a,
+    .navbar-left ul li a,
     .navbar-right ul li a {
         padding: 10px 20px;
         border-radius: 0;
@@ -114,7 +112,7 @@
         box-sizing: border-box;
     }
 
-    .navbar-left nav ul li + li,
+    .navbar-left ul li + li,
     .navbar-right ul li + li {
         border-top: 1px solid #ddd;
     }
