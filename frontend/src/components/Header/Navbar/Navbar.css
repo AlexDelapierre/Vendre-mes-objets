@@ -1,119 +1,199 @@
-/* Navbar */
+/* NAVBAR BASE */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
 }
 
-/* Partie gauche : titre + menu */
+/* Logo + menu gauche */
 .navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
-.navbar-left h1 {
-    font-size: 24px;
+.navbar-brand {
+  font-size: 24px;
+  color: #007bff;
+  text-decoration: none;
 }
 
-/* Listes de navigation - desktop par défaut */
-.navbar-left ul,
-.navbar-right ul {
-    display: flex;
-    gap: 15px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+/* Liens desktop */
+.nav-left-links,
+.nav-right-links {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* Liens simples */
-.navbar-left ul li a,
-.navbar-right ul li a {
-    color: #007BFF; /* couleur du texte */
-    text-decoration: none; /* pas de soulignement par défaut */
-    transition: color 0.3s ease; /* transition pour hover */
-    padding: 5px 0; /* optionnel : un petit padding vertical */
+.nav-left-links a,
+.nav-right-links a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Hover */
-.navbar-left ul li a:hover,
-.navbar-right ul li a:hover {
-    color: #0056b3; /* couleur plus foncée au survol */
+.nav-left-links a:hover,
+.nav-right-links a:hover {
+  color: #0056b3;
 }
 
-/* --- AJOUTS POUR MOBILE --- */
-
-/* bouton hamburger (hidden desktop) */
+/* HAMBURGER */
 .hamburger {
-    display: none; /* invisible desktop */
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 18px;
-    background: none;
-    border: none;
-    cursor: pointer;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .hamburger span {
-    display: block;
-    height: 3px;
-    background: #007BFF;
-    border-radius: 2px;
-    transition: all 0.3s;
+  display: block;
+  height: 3px;
+  background: #007bff;
+  border-radius: 2px;
+  transition: all 0.3s;
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+  transform: rotate(45deg) translate(5px, 5px);
 }
 .hamburger.active span:nth-child(2) {
-    opacity: 0;
+  opacity: 0;
 }
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Mobile menu */
+/* MENU MOBILE */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.mobile-menu li {
+  border-top: 1px solid #ddd;
+}
+
+.mobile-menu li:first-child {
+  border-top: none;
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.mobile-menu a:hover {
+  color: #0056b3;
+}
+
+/* RESPONSIVE */
 @media (max-width: 767px) {
-    /* hamburger visible sur mobile */
-    .hamburger {
-        display: flex;
-    }
+  .nav-left-links {
+    display: none; /* ne plus afficher Accueil/Vendre un objet dans navbar mobile */
+  }
 
-    /* menus cachés par défaut */
-    .navbar-left ul,
-    .navbar-right ul {
-        display: none;
-        flex-direction: column;
-        gap: 0;
-        background-color: #f5f5f5;
-        position: absolute;
-        top: 65px; /* ajuster selon hauteur navbar */
-        left: 0;
-        width: 100%;
-        padding: 10px 0;
-    }
+  .hamburger {
+    display: flex;
+  }
 
-    /* menus ouverts */
-    .navbar-left ul.open,
-    .navbar-right ul.open {
-        display: flex;
-    }
+  .nav-right-links {
+    display: flex; /* garder Panier et Mon compte visibles */
+    align-items: center;
+    gap: 10px;
+  }
 
-    /* liens mobiles */
-    .navbar-left ul li a,
-    .navbar-right ul li a {
-        padding: 10px 20px;
-        border-radius: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
+  .nav-left-links a,
+  .nav-right-links a {
+    font-size: 16px;
+  }
+}
 
-    .navbar-left ul li + li,
-    .navbar-right ul li + li {
-        border-top: 1px solid #ddd;
-    }
+/* Dropdown Mon compte */
+.account-menu {
+  position: relative;
+}
+
+.account-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s ease;
+}
+
+.account-btn:hover {
+  color: #0056b3;
+}
+
+.account-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  min-width: 160px;
+  z-index: 100;
+  display: none;
+}
+
+.account-menu .account-dropdown li a,
+.account-menu .account-dropdown li a:visited {
+  display: block;
+  width: 100%;
+  padding: 8px 15px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.account-menu .account-dropdown li a:hover {
+  color: #0056b3;
+}
+
+/* Desktop dropdown Mon compte */
+@media (min-width: 768px) {
+  .account-menu .account-dropdown {
+    display: none; /* cacher par défaut */
+  }
+
+  .account-menu:hover .account-dropdown {
+    display: block; /* afficher au survol */
+  }
 }

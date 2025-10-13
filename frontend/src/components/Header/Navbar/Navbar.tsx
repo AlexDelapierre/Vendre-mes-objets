@@ -1,46 +1,59 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Navbar.css';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FiShoppingCart, FiUser } from "react-icons/fi";
+import "./Navbar.css";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); // <-- nouvel état pour le menu
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Vérifie la présence d'un token pour l'état de connexion
-    setIsLoggedIn(!!localStorage.getItem('token'));
+    setIsLoggedIn(!!localStorage.getItem("token"));
   }, []);
 
   const handleLogout = (e: React.MouseEvent) => {
     e.preventDefault();
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     setIsLoggedIn(false);
-    navigate('/login');
-    setMenuOpen(false); // ferme le menu après logout
+    navigate("/login");
+    setMenuOpen(false);
+    setAccountOpen(false);
   };
 
-  const handleLinkClick = () => setMenuOpen(false); // ferme le menu après clic sur lien
+  const handleLinkClick = () => {
+    setMenuOpen(false);
+    setAccountOpen(false);
+  };
+
+  const handleAccountToggle = () => {
+    setAccountOpen(!accountOpen);
+  };
 
   return (
     <header>
       <nav className="navbar">
+        {/* Partie gauche */}
         <div className="navbar-left">
           <Link to="/" className="navbar-brand">
-            VendreMesObjets
+            Vintago
           </Link>
 
-          <ul className={menuOpen ? 'open' : ''}>
-            <li><Link to="/" onClick={handleLinkClick}>Objets à vendre</Link></li>
+          <ul className="nav-left-links">
+            <li>
+              <Link to="/" onClick={handleLinkClick}>
+                Accueil
+              </Link>
+            </li>
             <li>
               <Link
-                id="nav-addObject"
                 to={isLoggedIn ? "/ajout" : "/login"}
-                onClick={e => {
+                onClick={(e) => {
                   if (!isLoggedIn) {
                     e.preventDefault();
-                    navigate('/login');
+                    navigate("/login");
                   }
                   handleLinkClick();
                 }}
@@ -51,36 +64,132 @@ const Navbar = () => {
           </ul>
         </div>
 
+        {/* Partie droite */}
         <div className="navbar-right">
-          <ul className={menuOpen ? 'open' : ''}>
-            {!isLoggedIn && (
-              <>
-                <li id="nav-signup"><Link to="/signup" onClick={handleLinkClick}>Inscription</Link></li>
-                <li id="nav-login"><Link to="/login" onClick={handleLinkClick}>Connexion</Link></li>
-              </>
-            )}
+          <ul className="nav-right-links">
+            {/* Panier visible toujours */}
+            <li>
+              <Link to={isLoggedIn ? "/cart" : "/login"} onClick={handleLinkClick}>
+                <FiShoppingCart size={22} />
+              </Link>
+            </li>
+
+            {/* Mon compte icon visible toujours */}
             {isLoggedIn && (
-              <li id="nav-logout">
-                <a href="#" id="logout-btn" onClick={handleLogout}>Déconnexion</a>
+              <li className="account-menu">
+                <button onClick={handleAccountToggle} className="account-btn">
+                  <FiUser size={22} />
+                </button>
+                <ul className={`account-dropdown ${accountOpen ? "active" : ""}`}>
+                  <li>
+                    <Link to="/profile" onClick={handleLinkClick}>
+                      Profil
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/my-products" onClick={handleLinkClick}>
+                      Mes objets à vendre
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="#" onClick={handleLogout}>
+                      Déconnexion
+                    </a>
+                  </li>
+                </ul>
               </li>
             )}
-          </ul>
 
-          {/* bouton hamburger déplacé ici */}
-          <button
-            className={`hamburger ${menuOpen ? 'active' : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            {!isLoggedIn && (
+              <>
+                <li>
+                  <Link to="/signup" onClick={handleLinkClick}>
+                    Inscription
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/login" onClick={handleLinkClick}>
+                    Connexion
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+
+        {/* Hamburger mobile */}
+        <button
+          className={`hamburger ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Menu mobile fusionné */}
+        <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+          <ul>
+            <li>
+              <Link to="/" onClick={handleLinkClick}>
+                Accueil
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={isLoggedIn ? "/ajout" : "/login"}
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    navigate("/login");
+                  }
+                  handleLinkClick();
+                }}
+              >
+                Vendre un objet
+              </Link>
+            </li>
+
+            {!isLoggedIn && (
+              <>
+                <li>
+                  <Link to="/signup" onClick={handleLinkClick}>
+                    Inscription
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/login" onClick={handleLinkClick}>
+                    Connexion
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {isLoggedIn && (
+              <>
+                <li>
+                  <Link to="/profile" onClick={handleLinkClick}>
+                    Profil
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/my-products" onClick={handleLinkClick}>
+                    Mes objets à vendre
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" onClick={handleLogout}>
+                    Déconnexion
+                  </a>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
       </nav>
     </header>
   );
-
 };
 
 export default Navbar;
