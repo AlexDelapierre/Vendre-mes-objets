@@ -58,7 +58,7 @@ const Navbar = () => {
                   handleLinkClick();
                 }}
               >
-                Vendre un objet
+                Vendre
               </Link>
             </li>
           </ul>
@@ -67,19 +67,22 @@ const Navbar = () => {
         {/* Partie droite */}
         <div className="navbar-right">
           <ul className="nav-right-links">
-            {/* Panier visible toujours */}
+            {/* Icône panier */}
             <li>
               <Link to={isLoggedIn ? "/cart" : "/login"} onClick={handleLinkClick}>
                 <FiShoppingCart size={22} />
               </Link>
             </li>
 
-            {/* Mon compte icon visible toujours */}
+            {/* Mon compte */}
             {isLoggedIn && (
               <li className="account-menu">
-                <button onClick={handleAccountToggle} className="account-btn">
-                  <FiUser size={22} />
-                </button>
+                <Link to={isLoggedIn ? "/cart" : "/login"} onClick={handleLinkClick}>
+                  Mon compte
+                  <button onClick={handleAccountToggle} className="account-btn">
+                    <FiUser size={22} />
+                  </button>
+                </Link>
                 <ul className={`account-dropdown ${accountOpen ? "active" : ""}`}>
                   <li>
                     <Link to="/profile" onClick={handleLinkClick}>
@@ -137,6 +140,11 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
+              <Link to="/categories" onClick={handleLinkClick}>
+                Catégories
+              </Link>
+            </li>
+            <li>
               <Link
                 to={isLoggedIn ? "/ajout" : "/login"}
                 onClick={(e) => {
@@ -147,9 +155,25 @@ const Navbar = () => {
                   handleLinkClick();
                 }}
               >
-                Vendre un objet
+                Vendre
               </Link>
             </li>
+            <li>
+              <Link
+                to={isLoggedIn ? "/account" : "/login"}
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    navigate("/login");
+                  }
+                  handleLinkClick();
+                }}
+              >
+                Mon compte
+              </Link>
+            </li>
+
+            <hr></hr>
 
             {!isLoggedIn && (
               <>
@@ -168,16 +192,16 @@ const Navbar = () => {
 
             {isLoggedIn && (
               <>
-                <li>
+                {/* <li>
                   <Link to="/profile" onClick={handleLinkClick}>
-                    Profil
+                    Mon compte
                   </Link>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <Link to="/my-products" onClick={handleLinkClick}>
                     Mes objets à vendre
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <a href="#" onClick={handleLogout}>
                     Déconnexion
